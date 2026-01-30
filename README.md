@@ -3,7 +3,13 @@
 This project explores a hybrid video compression method designed to optimize real-time video transmission for remote driving (Teleoperation) of autonomous vehicles. By combining Semantic Segmentation for non-critical regions (non-ROI) and high-quality Photorealistic RGB for critical regions (ROI), we achieve significant bandwidth reduction while maintaining the driver's spatial awareness.
 
 
-https://github.com/user-attachments/assets/5e8f6433-505e-43f3-bd59-838cfbacee54
+
+
+Click the image below to watch the system in action, demonstrating the hybrid compression and the cyclist scenario:
+
+[![Hybrid Video Compression Demo](https://img.youtube.com/vi/s7sZhRlwCF0/0.jpg)](https://youtu.be/s7sZhRlwCF0)
+
+
 
 
 ## Key Features
