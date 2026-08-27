@@ -638,12 +638,12 @@ class CollisionSensor(object):
 
 '''
 class CollisionSensor(object):
-    def __init__(self, parent_actor, hud, gnss_sensor):  # ⬅️ נוספה קליטת GNSS
+    def __init__(self, parent_actor, hud, gnss_sensor):  
         self.sensor = None
         self.history = []
         self._parent = parent_actor
         self.hud = hud
-        self.gnss = gnss_sensor  # ⬅️ שמירה לשימוש פנימי
+        self.gnss = gnss_sensor  
         world = self._parent.get_world()
         bp = world.get_blueprint_library().find('sensor.other.collision')
         self.sensor = world.spawn_actor(bp, carla.Transform(), attach_to=self._parent)
@@ -670,7 +670,7 @@ class CollisionSensor(object):
         if len(self.history) > 4000:
             self.history.pop(0)
 
-        # ✅ הוספת שמירה לקובץ כולל מיקום גיאוגרפי
+     
         lat = getattr(self.gnss, 'lat', 0.0)
         lon = getattr(self.gnss, 'lon', 0.0)
         with open("collisions.csv", "a") as f:
