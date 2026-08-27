@@ -628,12 +628,12 @@ class CollisionSensor(object):
 
 '''
 class CollisionSensor(object):
-    def __init__(self, parent_actor, hud, gnss_sensor):  # ⬅️ נוספה קליטת GNSS
+    def __init__(self, parent_actor, hud, gnss_sensor): 
         self.sensor = None
         self.history = []
         self._parent = parent_actor
         self.hud = hud
-        self.gnss = gnss_sensor  # ⬅️ שמירה לשימוש פנימי
+        self.gnss = gnss_sensor
         world = self._parent.get_world()
         bp = world.get_blueprint_library().find('sensor.other.collision')
         self.sensor = world.spawn_actor(bp, carla.Transform(), attach_to=self._parent)
@@ -660,7 +660,6 @@ class CollisionSensor(object):
         if len(self.history) > 4000:
             self.history.pop(0)
 
-        # ✅ הוספת שמירה לקובץ כולל מיקום גיאוגרפי
         lat = getattr(self.gnss, 'lat', 0.0)
         lon = getattr(self.gnss, 'lon', 0.0)
         with open("collisions.csv", "a") as f:
@@ -741,8 +740,8 @@ class IMUSensor(object):
         bp = world.get_blueprint_library().find('sensor.other.imu')
         self.sensor = world.spawn_actor(
             bp, carla.Transform(), attach_to=self._parent)
-        # We need to pass the lambda a weak reference to self to avoid circular
-        # reference.
+       
+    
         weak_self = weakref.ref(self)
         self.sensor.listen(
             lambda sensor_data: IMUSensor._IMU_callback(weak_self, sensor_data))
@@ -1000,15 +999,12 @@ class CameraManager(object):
     def _parse_seg_image(self, image):
 
         self.process_start_time = time.time()
-        # שליפת מזהים סמנטיים לפני ההמרה
         semantic_id_array = np.frombuffer(image.raw_data, dtype=np.uint8).reshape((image.height, image.width, 4))[:, :,
                             2].copy()
 
-        # המרה לצבעים
         image.convert(carla.ColorConverter.CityScapesPalette)
         array = np.frombuffer(image.raw_data, dtype=np.uint8).reshape((image.height, image.width, 4))[:, :, :3].copy()
 
-        # צביעת שמיים (ID=11) בתכלת
         sky_mask = (semantic_id_array == 11)
         array[sky_mask] = [135, 206, 250]  # light blue
 
@@ -1016,7 +1012,7 @@ class CameraManager(object):
         self.semantic_id_array = semantic_id_array
 
     def set_sensor(self, index, notify=True):
-        pass  # אין תמיכה בהחלפת מצלמות, אז הפונקציה לא עושה כלום
+        pass 
 
     def toggle_recording(self):
         self.recording = not self.recording
@@ -1031,7 +1027,7 @@ class CameraManager(object):
                 if not line_bytes:
                     break
                 decoded = line_bytes.decode("utf-8", errors="ignore")
-                print(f"[ffmpeg stderr] {line_bytes}")  # DEBUG בלבד - אפשר למחוק
+                print(f"[ffmpeg stderr] {line_bytes}")  
 
                 if "bitrate=" in decoded:
                     match = re.search(r'bitrate=\s*(\d+\.?\d*)kbits/s', decoded)
